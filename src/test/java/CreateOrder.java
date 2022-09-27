@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -14,8 +13,6 @@ import pages.Order;
 import java.time.Duration;
 
 import static org.junit.Assert.assertTrue;
-import static pages.Order.headerOrderButton;
-import static pages.Order.middleOrderButton;
 
 @RunWith(Parameterized.class)
 public class CreateOrder {
@@ -27,11 +24,11 @@ public class CreateOrder {
     private String phone;
     private String date;
     private int days;
-    private String colour;
+    private int colour;
     private String comment;
-    private By entryPoint;
+    private int entryPoint;
 
-    public CreateOrder(By entryPoint, String name, String surname, String address, String tube, String phone, String date, int days, String colour, String comment) {
+    public CreateOrder(int entryPoint, String name, String surname, String address, String tube, String phone, String date, int days, int colour, String comment) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -47,8 +44,8 @@ public class CreateOrder {
     @Parameterized.Parameters
     public static Object[][] formData() {
         return new Object[][]{
-                {headerOrderButton, "Пабло", "Пикассо", "г. Москва, ул. Красных Коммунаров, д9, кв 97", "Южная", "+79277777777", "30.10.2022", 5, "Black", "Короткий комментарий"},
-                {middleOrderButton, "Ян", "Ли", "г. Москва", "Черкизовская", "89277777777", "02.11.2045", 1, "Gray", "Короткий комментарий"},
+                {0, "Пабло", "Пикассо", "г. Москва, ул. Красных Коммунаров, д9, кв 97", "Южная", "+79277777777", "30.10.2022", 5, 0, "Короткий комментарий"},
+                {1, "Ян", "Ли", "г. Москва", "Черкизовская", "89277777777", "02.11.2045", 1, 1, "Короткий комментарий"},
         };
     }
 
@@ -79,11 +76,7 @@ public class CreateOrder {
         order.clickProceedButton();
         order.fillDate(date);
         order.chooseAmount(days);
-        if (colour == "Black") {
-            order.chooseBlackColour();
-        } else {
-            order.chooseGrayColour();
-        }
+        order.chooseColour(colour);
         order.fillComment(comment);
         order.finishOrder();
         order.confirmOrder();

@@ -4,39 +4,34 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import pages.MainPageQuestionsAccordion;
 
-import static pages.MainPageQuestionsAccordion.*;
-
 
 @RunWith(Parameterized.class)
 public class MainPageQuestionsAccordionText {
     private WebDriver driver;
-    private By button;
-    private By actualText;
+    private int question;
     private String expectedText;
 
-    public MainPageQuestionsAccordionText(By button, By actualText, String expectedText) {
-        this.button = button;
-        this.actualText = actualText;
+    public MainPageQuestionsAccordionText(int question, String expectedText) {
+        this.question = question;
         this.expectedText = expectedText;
     }
 
     @Parameterized.Parameters
     public static Object[][] formData() {
         return new Object[][]{
-                {priceButton, priceText, PRICE_TEXT},
-                {fewButton, fewText, FEW_TEXT},
-                {timeButton, timeText, TIME_TEXT},
-                {orderTodayButton, orderTodayText, TODAY_TEXT},
-                {prolongButton, prolongText, PROLONG_TEXT},
-                {chargerButton, chargerText, CHARGER_TEXT},
-                {cancelButton, cancelText, CANCEL_TEXT},
-                {mcadButton, mcadText, MCAD_TEXT},
+                {0, PRICE_TEXT},
+                {1, FEW_TEXT},
+                {2, TIME_TEXT},
+                {3, TODAY_TEXT},
+                {4, PROLONG_TEXT},
+                {5, CHARGER_TEXT},
+                {6, CANCEL_TEXT},
+                {7, MCAD_TEXT},
         };
     }
 
@@ -62,9 +57,9 @@ public class MainPageQuestionsAccordionText {
         MainPageQuestionsAccordion questions = new MainPageQuestionsAccordion(driver);
         questions.openHomePage();
         questions.acceptCookies();
-        questions.questionClick(button, actualText);
-        Assert.assertTrue(driver.findElement(actualText).isDisplayed());
-        Assert.assertEquals(expectedText, questions.questionGetText(actualText));
+        questions.questionClick(question);
+        Assert.assertTrue(questions.isQuestionTextVisible(question));
+        Assert.assertEquals(expectedText, questions.questionGetText(question));
     }
 
     @After

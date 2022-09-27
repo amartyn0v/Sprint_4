@@ -8,49 +8,43 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 
 
 public class MainPageQuestionsAccordion {
     private WebDriver driver;
 
     public By cookiesAcceptButton = By.id("rcc-confirm-button");
-    public static By priceButton = By.id("accordion__heading-0");
-    public static By priceText = By.xpath(".//div[@id='accordion__panel-0']/p");
-    public static By fewButton = By.id("accordion__heading-1");
-    public static By fewText = By.xpath(".//div[@id='accordion__panel-1']/p");
-    public static By timeButton = By.id("accordion__heading-2");
-    public static By timeText = By.xpath(".//div[@id='accordion__panel-2']/p");
-    public static By orderTodayButton = By.id("accordion__heading-3");
-    public static By orderTodayText = By.xpath(".//div[@id='accordion__panel-3']/p");
-    public static By prolongButton = By.id("accordion__heading-4");
-    public static By prolongText = By.xpath(".//div[@id='accordion__panel-4']/p");
-    public static By chargerButton = By.id("accordion__heading-5");
-    public static By chargerText = By.xpath(".//div[@id='accordion__panel-5']/p");
-    public static By cancelButton = By.id("accordion__heading-6");
-    public static By cancelText = By.xpath(".//div[@id='accordion__panel-6']/p");
-    public static By mcadButton = By.id("accordion__heading-7");
-    public static By mcadText = By.xpath(".//div[@id='accordion__panel-7']/p");
+    public By questionsButtons = By.xpath(".//div[contains(@id, 'accordion__heading')]");
+    public By questionsTexts = By.xpath(".//div[contains(@id, 'accordion__panel')]/p");
 
     public MainPageQuestionsAccordion(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void openHomePage(){
+    public void openHomePage() {
         driver.get("https://qa-scooter.praktikum-services.ru");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.elementToBeClickable(cookiesAcceptButton));
     }
 
-    public void questionClick(By button, By text){
-        WebElement element = driver.findElement(button);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
-        driver.findElement(button).click();
+    public void questionClick(int i) {
+        List<WebElement> listOfButtons = driver.findElements(questionsButtons);
+        List<WebElement> listOfTexts = driver.findElements(questionsTexts);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", listOfButtons.get(i));
+        listOfButtons.get(i).click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.elementToBeClickable(text));
+        wait.until(ExpectedConditions.visibilityOf(listOfTexts.get(i)));
     }
 
-    public String questionGetText(By question){
-        return driver.findElement(question).getText();
+    public String questionGetText(int i) {
+        List<WebElement> listOfTexts = driver.findElements(questionsTexts);
+        return listOfTexts.get(i).getText();
+    }
+
+    public boolean isQuestionTextVisible(int i) {
+        List<WebElement> listOfTexts = driver.findElements(questionsTexts);
+        return listOfTexts.get(i).isDisplayed();
     }
 
     public void acceptCookies() {
