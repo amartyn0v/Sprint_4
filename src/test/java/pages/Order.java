@@ -19,8 +19,8 @@ public class Order {
     }
 
     public By cookiesAcceptButton = By.id("rcc-confirm-button");
-    public By headerOrderButton = By.xpath(".//div[contains(@class, 'Header_Nav')]/button[text()='Заказать']");
-    public By middleOrderButton = By.xpath(".//div[contains(@class, 'Home_RoadMap')]/div/button[text()='Заказать']");
+    public static By headerOrderButton = By.xpath(".//div[contains(@class, 'Header_Nav')]/button[text()='Заказать']");
+    public static By middleOrderButton = By.xpath(".//div[contains(@class, 'Home_RoadMap')]/div/button[text()='Заказать']");
     public By inputName = By.xpath(".//input[@placeholder='* Имя']");
     public By inputSurname = By.xpath(".//input[@placeholder='* Фамилия']");
     public By inputAddress = By.xpath(".//input[@placeholder='* Адрес: куда привезти заказ']");
@@ -45,12 +45,8 @@ public class Order {
     public By modalYesButton = By.xpath(".//div[contains(@class, 'Order_Modal')]/div/button[text()='Да']");
     public By confirmationText = By.xpath(".//div[contains(@class, 'Order_Modal')]/div[contains(text(),'Заказ оформлен')]");
 
-    public void clickHeaderOrderButton() {
-        driver.findElement(headerOrderButton).click();
-    }
-
-    public void clickMiddleOrderButton() {
-        driver.findElement(middleOrderButton).click();
+    public void clickOrderButton(By button){
+        driver.findElement(button).click();
     }
 
     public void fillName(String name) {
